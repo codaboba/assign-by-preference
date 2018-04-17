@@ -7,13 +7,13 @@
 
 
 
-##How to use it
+## How to use it
 
 **assignByPreference(users, groups [, options])** 
 
 The table below describes the expected properties of each parameter.
 
-####Users
+#### Users
 
 *Users is a list of objects which should contain the following key-value pairs* 
 
