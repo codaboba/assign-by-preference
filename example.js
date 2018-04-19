@@ -8,7 +8,7 @@ function createUsers(key, preferences, assignments) {
   return {
     key,
     preferences,
-    assignments: assignments || []
+    assignments: assignments
   }
 }
 
@@ -36,8 +36,9 @@ let group6 = createGroup('Horseriding 101', 2);
 let groups = [group0, group1, group2, group3, group4, group5, group6];
 
 // module with options.assignmentsPerUser undefined
-console.log(pretty(assignByPreference(users,groups).groups));
-console.log(pretty(assignByPreference(users,groups).users));
+let result = assignByPreference(users,groups);
+console.log(pretty(result.users));
 
 // module with options.assigmentsPerUser defined
-console.log(pretty(assignByPreference(users,groups,{assignmentsPerUser: 1}).users));
+result = assignByPreference(users,groups,{assignmentsPerUser: 1});
+console.log(pretty(result.users));

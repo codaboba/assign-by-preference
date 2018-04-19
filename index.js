@@ -3,11 +3,15 @@ module.exports = assignByPreference;
 function assignByPreference(users, groups, options) {
 
   // copy inputs
-  const usersCopy = users.slice();
-  const groupsCopy = groups.slice().map(currentGroup => {
-    currentGroup.assignees = [];
-    currentGroup.availability = currentGroup.capacity - currentGroup.assignees.length;
-    return currentGroup;
+  const usersCopy = users.map(currentUser => {
+    let newObj = Object.assign({}, currentUser);
+    return newObj;
+  });
+  const groupsCopy = groups.map(currentGroup => {
+    let newObj = Object.assign({}, currentGroup);
+    newObj.assignees = [];
+    newObj.availability = newObj.capacity - newObj.assignees.length;
+    return newObj;
   });
 
   let sumOfGroupCapacity = groupsCopy.reduce(((sum, a) => sum + a.capacity), 0);
@@ -45,6 +49,12 @@ function assignByPreference(users, groups, options) {
       const groupLookupKey = currentUser.preferences[b];
       let currentGroup = groupTable[groupLookupKey];
 
+      if (currentUser.assignments) {
+        currentUser.assignments = currentUser.assignments.slice();
+      } else {
+        currentUser.assignments = [];
+      }
+
       const userAssignmentsFull = currentUser.assignments.length === options.assignmentsPerUser;
 
       if (userAssignmentsFull) {
@@ -57,8 +67,14 @@ function assignByPreference(users, groups, options) {
 
       // if user preference has no availability, assign user to next group with the most availability
       if (currentGroup.availability === 0) {
-        const openGroup = findGroupWithAvailability(currentUser);
-        addUserToGroup(currentUser, openGroup);
+        if (b < (currentUser.preferences.length - 1)) {
+          continue;
+        } else {
+          const openGroup = findGroupWithAvailability(currentUser);
+          addUserToGroup(currentUser, openGroup);
+        }
+
+
 
       } else if (currentGroup.availability > 0) {
         addUserToGroup(currentUser, currentGroup);
@@ -66,6 +82,11 @@ function assignByPreference(users, groups, options) {
     }
 
   }
+
+  return {
+    users: usersCopy,
+    groups: groupsCopy
+  };
 
   function findGroupWithAvailability(user) {
     const groupWithAvailability = groupsCopy.reduce((openGroup, currentGroup) => {
@@ -89,10 +110,5 @@ function assignByPreference(users, groups, options) {
 
     // update user assignments
     user.assignments.push(targetGroup.key);
-  }
-
-  return {
-    users: usersCopy,
-    groups: groupsCopy
   }
 }

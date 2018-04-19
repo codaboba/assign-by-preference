@@ -1,0 +1,29 @@
+{
+  "name": "assign-by-preference",
+  "version": "1.0.0",
+  "description": "Assign users to group slots based on user preference and availability",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codaboba/assign-by-preference.git"
+  },
+  "keywords": [
+    "preference",
+    "assignment",
+    "schedule",
+    "scheduling",
+    "sort",
+    "teams",
+    "group",
+    "people"
+  ],
+  "author": "Hong Le",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codaboba/assign-by-preference/issues"
+  },
+  "homepage": "https://github.com/codaboba/assign-by-preference#readme"
+}
